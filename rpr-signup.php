@@ -651,12 +651,14 @@ if ( !class_exists( 'RPR_Signup' ) ) {
 				}
 			}
 			if ( is_array( $register_plus_redux->rpr_get_option( 'required_fields' ) ) && in_array( 'first_name', $register_plus_redux->rpr_get_option( 'required_fields' ) ) ) {
-				if ( empty( $_POST['first_name'] ) ) {
+				$first_name_trimmed = trim($_POST['first_name']);
+				if ( empty( $first_name_trimmed ) ) {
 					$result['errors']->add( 'first_name', __( 'Please enter your first name.', 'register-plus-redux' ) );
 				}
 			}
 			if ( is_array( $register_plus_redux->rpr_get_option( 'required_fields' ) ) && in_array( 'last_name', $register_plus_redux->rpr_get_option( 'required_fields' ) ) ) {
-				if ( empty( $_POST['last_name'] ) ) {
+				$last_name_trimmed = trim($_POST['last_name']);
+				if ( empty( $last_name_trimmed ) ) {
 					$result['errors']->add( 'last_name', __( 'Please enter your last name.', 'register-plus-redux' ) );
 				}
 			}
@@ -689,7 +691,8 @@ if ( !class_exists( 'RPR_Signup' ) ) {
 			if ( is_array( $redux_usermeta ) ) {
 				foreach ( $redux_usermeta as $meta_field ) {
 					$meta_key = $meta_field['meta_key'];
-					if ( !empty( $meta_field['show_on_registration'] ) && !empty( $meta_field['require_on_registration'] ) && empty( $_POST[$meta_key] ) ) {
+					$meta_value_trimmed = trim($_POST[$meta_key]);
+					if ( !empty( $meta_field['show_on_registration'] ) && !empty( $meta_field['require_on_registration'] ) && empty( $meta_value_trimmed ) ) {
 						$result['errors']->add( $meta_key, sprintf( __( 'Please enter a value for %s.', 'register-plus-redux' ), $meta_field['label'] ) );
 					}
 					if ( !empty( $meta_field['show_on_registration'] ) && ( 'textbox' === $meta_field['display'] ) && !empty( $meta_field['options'] ) && !preg_match( $meta_field['options'], (string) $_POST[$meta_key] ) ) {
